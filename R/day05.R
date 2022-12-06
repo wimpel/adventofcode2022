@@ -50,3 +50,15 @@ for (i in seq.int(nrow(moves))) {
 paste0(sapply(L, tail, 1), collapse = "")
 # "BLSGJSDTS"
 
+
+L <- sapply(list("ZN", "MCD", "P"), strsplit, "")
+# [[1]]
+# [1] "Z" "N"
+# 
+# [[2]]
+# [1] "M" "C" "D"
+# 
+# [[3]]
+# [1] "P"
+
+
