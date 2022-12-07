@@ -1,6 +1,6 @@
 library(data.table)
 library(tictoc)
-
+library(RcppRoll)
 str <- readLines("./input/day06.txt")
 
 # fundtion to find the correct value
@@ -18,25 +18,18 @@ find_end_char2 <- function(str, n) {
 }
 
 allsubstr <- function(x, n) substring(x, 1:(nchar(x) - n + 1), n:nchar(x))
-
 find_end_char3 <- function(str, n) match(n, lapply(strsplit(allsubstr(str, n),""), function(x) length(unique(x)))) + n - 1
 
+find_end_char4 <- function(str, n) {
+  match(n, frollapply(x = as.numeric(charToRaw(str)), n = n, FUN = uniqueN))
+}
 
-tic("brute-force part 1")
-find_end_char(str, 4)  # part 1 >> 1093
-tic("brute-force part 2")
-find_end_char(str, 14) # part 2 >> 3534
-tic("while part 1")
-find_end_char2(str, 4)
-tic("while part 1")
-find_end_char2(str, 14)
-tic("substring 1")
-find_end_char3(str, 4)
-tic("substring 1")
-find_end_char3(str, 14)
-toc()
-toc()
-toc()
-toc()
-toc()
-toc()
+find_end_char4(str, 4)
+
+microbenchmark::microbenchmark(
+  brute_force_list = find_end_char(str, 14),
+  while_loop = find_end_char2(str, 14),
+  strsplit = find_end_char3(str, 14),
+  rollapply = find_end_char4(str, 14),
+  times = 3L)
+
