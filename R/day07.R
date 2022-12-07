@@ -1,10 +1,8 @@
 library(data.table)
-
 DT <- fread("./input/day07.txt", header = FALSE, col.names = "line", sep = "")
 
 # part 1
 # create paths
-
 L <- list(path = as.character(rep("", nrow(DT))),
           size = as.numeric(rep(0, nrow(DT))))
 for (i in seq.int(nrow(DT))) {
@@ -40,12 +38,10 @@ final[filetotal <= 100000, .(sum(filetotal))]
 # 1: 1908462
 
 # part 2
-final
 total.space <- 70000000
 space.needed <- 30000000
 space.occupied <- total.space - final[path == "/", ]$filetotal
 needed <- space.needed - space.occupied
-
 final[, delta.needed := abs(needed - filetotal)]
 final[delta.needed == min(delta.needed), filetotal]
 #[1] 3979145
