@@ -12,11 +12,11 @@ bottom <- DT[nrow(DT):1, lapply(.SD, function(x) !duplicated(cummax(x)))][nrow(D
 left <- transpose(transpose(DT)[, lapply(.SD, function(x) !duplicated(cummax(x)))])
 # from right
 right <- transpose(transpose(DT)[nrow(DT):1, lapply(.SD, function(x) !duplicated(cummax(x)))][nrow(DT): 1, ])
-# sum looks, sum visible trees
+# calculate final answer
 sum((top + bottom + left + right) > 0)
 
 # part 2
-
+# custom function
 calculated <- function(x) {
   sapply(seq.int(length(x)), function(i) {
     val <- x[i]
@@ -25,7 +25,6 @@ calculated <- function(x) {
     if(is.infinite(ans)) length(check.v) else ans
   })
 }
-
 # looking down
 down <- DT[, lapply(.SD, calculated)]
 down[nrow(down), ] <- 0
@@ -41,4 +40,7 @@ left <- transpose(left)
 right <- transpose(DT)[nrow(DT):1, lapply(.SD, calculated)]
 right[nrow(right), ] <- 0
 right <- transpose(right[nrow(DT):1,])
+# calculate final answer
 max(down * up * left * right)
+
+
